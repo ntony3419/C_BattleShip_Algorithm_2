@@ -1,0 +1,6 @@
+6,6
+D2 W 3 asdsadsa
+B5 E 3 gsdfgsdfg
+C2 N 3 asdsadsa
+A2 S 3 asdsadsa
+
