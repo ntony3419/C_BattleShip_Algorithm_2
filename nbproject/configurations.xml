@@ -6,8 +6,10 @@
                    projectFiles="true">
       <itemPath>Field.h</itemPath>
       <itemPath>fileIO.h</itemPath>
-      <itemPath>linkedlist.h</itemPath>
+      <itemPath>gameplay.h</itemPath>
       <itemPath>menu.h</itemPath>
+      <itemPath>misslelist.h</itemPath>
+      <itemPath>shiplist.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -19,9 +21,10 @@
       <itemPath>Field.c</itemPath>
       <itemPath>fileIO.c</itemPath>
       <itemPath>gameplay.c</itemPath>
-      <itemPath>linkedlist.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>menu.c</itemPath>
+      <itemPath>misslelist.c</itemPath>
+      <itemPath>shiplist.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -58,15 +61,21 @@
       </item>
       <item path="gameplay.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="linkedlist.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="linkedlist.h" ex="false" tool="3" flavor2="0">
+      <item path="gameplay.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="menu.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="menu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="misslelist.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="misslelist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="shiplist.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="shiplist.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -100,15 +109,21 @@
       </item>
       <item path="gameplay.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="linkedlist.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="linkedlist.h" ex="false" tool="3" flavor2="0">
+      <item path="gameplay.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="menu.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="menu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="misslelist.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="misslelist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="shiplist.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="shiplist.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

@@ -1,128 +1,44 @@
-#
-#  There exist several targets which are by default empty and which can be 
-#  used for execution of your targets. These targets are usually executed 
-#  before and after some main targets. They are: 
-#
-#     .build-pre:              called before 'build' target
-#     .build-post:             called after 'build' target
-#     .clean-pre:              called before 'clean' target
-#     .clean-post:             called after 'clean' target
-#     .clobber-pre:            called before 'clobber' target
-#     .clobber-post:           called after 'clobber' target
-#     .all-pre:                called before 'all' target
-#     .all-post:               called after 'all' target
-#     .help-pre:               called before 'help' target
-#     .help-post:              called after 'help' target
-#
-#  Targets beginning with '.' are not intended to be called on their own.
-#
-#  Main targets can be executed directly, and they are:
-#  
-#     build                    build a specific configuration
-#     clean                    remove built files from a configuration
-#     clobber                  remove all built files
-#     all                      build all configurations
-#     help                     print help mesage
-#  
-#  Targets .build-impl, .clean-impl, .clobber-impl, .all-impl, and
-#  .help-impl are implemented in nbproject/makefile-impl.mk.
-#
-#  Available make variables:
-#
-#     CND_BASEDIR                base directory for relative paths
-#     CND_DISTDIR                default top distribution directory (build artifacts)
-#     CND_BUILDDIR               default top build directory (object files, ...)
-#     CONF                       name of current configuration
-#     CND_PLATFORM_${CONF}       platform name (current configuration)
-#     CND_ARTIFACT_DIR_${CONF}   directory of build artifact (current configuration)
-#     CND_ARTIFACT_NAME_${CONF}  name of build artifact (current configuration)
-#     CND_ARTIFACT_PATH_${CONF}  path to build artifact (current configuration)
-#     CND_PACKAGE_DIR_${CONF}    directory of package (current configuration)
-#     CND_PACKAGE_NAME_${CONF}   name of package (current configuration)
-#     CND_PACKAGE_PATH_${CONF}   path to package (current configuration)
-#
-# NOCDDL
+CC = gcc 
+CFLAGS = -Wall -ansi -pedantic -Werror -std=c89 -g
+OBJA = main.o Field.o  menu.o shiplist.o gameplay.o misslelist.o
+OBJB = main.o FieldB.o  menu.o shiplist.o gameplay.o misslelist.o
+OBJC = mainC.o FieldC.o  menu.o shiplist.o gameplayC.o misslelist.o
+EXECA = BattleShip
+EXECB = BattleShipMono
+EXECC = BattleShipDebug
 
 
-# Environment 
-MKDIR=mkdir
-CP=cp
-CCADMIN=CCadmin
+all: $(EXECA) $(EXECB) $(EXECC)
 
+$(EXECA): $(OBJA)
+		$(CC) $(CFLAGS) $(OBJA) -o $(EXECA) 
+$(EXECB): $(OBJB)
+		$(CC) $(CFLAGS) $(OBJB) -o $(EXECB) 
+$(EXECC): $(OBJC)
+		$(CC) $(CFLAGS) $(OBJC) -o $(EXECC) 
+		
+main.o: main.c 
+	$(CC) -c main.c $(CFLAGS) -g
+mainC.o: main.c
+	$(CC) -c main.c $(CFLAGS) -o mainC.o -D DEBUG 
+Field.o: Field.c Field.h
+	$(CC) -c Field.c $(CFLAGS) 
+FieldB.o: Field.c Field.h
+	$(CC) -c Field.c $(CFLAGS) -o FieldB.o  -D MONO
+FieldC.o: Field.c Field.h
+	$(CC) -c Field.c $(CFLAGS) -o FieldC.o -D DEBUG
+Menu.o: menu.c menu.h
+	$(CC) -c menu.c $(CFLAGS) 
+shiplist.o: shiplist.c shiplist.h
+	$(CC) -c shiplist.c $(CFLAGS)
+misslelist.o: misslelist.c misslelist.h
+	$(CC) -c misslelist.c $(CFLAGS)
+gameplay.o: gameplay.c gameplay.h
+	$(CC) -c gameplay.c $(CFLAGS) 
+gameplayC.o: gameplay.c gameplay.h
+	$(CC) -c gameplay.c $(CFLAGS) -o gameplayC.o -D DEBUG
+	
+	
+clean:
+		rm -f $(OBJA) $(OBJB) $(OBJC) $(EXECA) $(OBJB) $(EXECB) $(EXECC) 
 
-# build
-build: .build-post
-
-.build-pre:
-# Add your pre 'build' code here...
-
-.build-post: .build-impl
-# Add your post 'build' code here...
-
-
-# clean
-clean: .clean-post
-
-.clean-pre:
-# Add your pre 'clean' code here...
-
-.clean-post: .clean-impl
-# Add your post 'clean' code here...
-
-
-# clobber
-clobber: .clobber-post
-
-.clobber-pre:
-# Add your pre 'clobber' code here...
-
-.clobber-post: .clobber-impl
-# Add your post 'clobber' code here...
-
-
-# all
-all: .all-post
-
-.all-pre:
-# Add your pre 'all' code here...
-
-.all-post: .all-impl
-# Add your post 'all' code here...
-
-
-# build tests
-build-tests: .build-tests-post
-
-.build-tests-pre:
-# Add your pre 'build-tests' code here...
-
-.build-tests-post: .build-tests-impl
-# Add your post 'build-tests' code here...
-
-
-# run tests
-test: .test-post
-
-.test-pre: build-tests
-# Add your pre 'test' code here...
-
-.test-post: .test-impl
-# Add your post 'test' code here...
-
-
-# help
-help: .help-post
-
-.help-pre:
-# Add your pre 'help' code here...
-
-.help-post: .help-impl
-# Add your post 'help' code here...
-
-
-
-# include project implementation makefile
-include nbproject/Makefile-impl.mk
-
-# include project make variables
-include nbproject/Makefile-variables.mk

@@ -11,8 +11,5 @@
  * Created on April 27, 2020, 6:09 AM
  */
 
-#ifndef MENU_H
-#define MENU_H
-#endif /* MENU_H */
 
 void menu();

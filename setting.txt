@@ -1,6 +1,5 @@
 6,6
-D2 W 3 asdsadsa
-B5 E 3 gsdfgsdfg
-C2 N 3 asdsadsa
-A2 S 3 asdsadsa
-
+D1 W 3 shipOne
+B5 E 4 Ship Two
+C4 N 5 Ship three
+A3 S 6 Ship 4

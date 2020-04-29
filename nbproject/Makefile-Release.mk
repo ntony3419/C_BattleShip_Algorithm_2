@@ -38,9 +38,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/Field.o \
 	${OBJECTDIR}/fileIO.o \
 	${OBJECTDIR}/gameplay.o \
-	${OBJECTDIR}/linkedlist.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/menu.o
+	${OBJECTDIR}/menu.o \
+	${OBJECTDIR}/misslelist.o \
+	${OBJECTDIR}/shiplist.o
 
 
 # C Compiler Flags
@@ -82,11 +83,6 @@ ${OBJECTDIR}/gameplay.o: gameplay.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -std=c89 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gameplay.o gameplay.c
 
-${OBJECTDIR}/linkedlist.o: linkedlist.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c89 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/linkedlist.o linkedlist.c
-
 ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -96,6 +92,16 @@ ${OBJECTDIR}/menu.o: menu.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -std=c89 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/menu.o menu.c
+
+${OBJECTDIR}/misslelist.o: misslelist.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -std=c89 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/misslelist.o misslelist.c
+
+${OBJECTDIR}/shiplist.o: shiplist.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -std=c89 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/shiplist.o shiplist.c
 
 # Subprojects
 .build-subprojects:

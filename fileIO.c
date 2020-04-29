@@ -7,19 +7,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "linkedlist.h"
-
+#include "fileIO.h"
 #include <ctype.h>
 
-void loadSetting(int *cPt, int *rPt, char* fileName, LinkedList * shipData, int *errorPt){
+void loadShipAndField(int *cPt, int *rPt, char* fileName, shiplist * shipData, int *errorPt){
 	FILE *fpt;
-	char * location;	
+	char locationCol;	
+        int locationRow;
 	char direction;
 	int length;
 	char *shipName;
 
 
-        location = (char*)malloc(sizeof(char)*3);
+
 	shipName = (char*)malloc(sizeof(char)*100);
         
 	fpt = fopen(fileName, "r");
@@ -28,47 +28,45 @@ void loadSetting(int *cPt, int *rPt, char* fileName, LinkedList * shipData, int 
 		perror ("file not found\n");
 	}
 		/* scane the first line to get the width and height*/
-	fscanf(fpt,"%d,%d",cPt,rPt);
+	fscanf(fpt,"%d,%d",cPt,rPt); 
 	/* validate out of bound */
 	if(*cPt <1 || *cPt > 12 || *rPt <1 || *rPt > 12 ){
-		printf("dimension of the battlefield is wrong \n ");
-		*errorPt = 1;
+            printf("dimension of the battlefield is wrong \n ");
+            *errorPt = 1;
 	}
 	
 	/* scan other line for ship data */
-        while (fscanf(fpt,"%s %c %d %[^\n]",location , &direction, &length, shipName) != EOF){
+        while (fscanf(fpt,"%c%d %c %d %[^\n]",&locationCol, &locationRow , &direction, &length, shipName) != EOF){
         /* initial check if the ship length value is correct and out of  bound of battle field*/
-        switch (toupper(direction)){
-			case 'W':
-		    	if (length < 1 || length > *rPt ){ /* head to west body to east */
-					*errorPt = 1;
-			    }
-	
+            switch (toupper(direction)){
+                            case 'W':
+                            if (length < 1 || length > *rPt ){ /* head to west body to east */
+                                            *errorPt = 1;
+                                }
 
-			break;
-			case 'E':
-				if (length < 1 || length > *rPt ){ /* head to west body to east */
-					*errorPt = 1;
-			    }
-			break;
-			case 'S':
-				if (length < 1 || length > *cPt ){ /* head to west body to east */
-					*errorPt = 1;
-			    }
-			break;
-			case 'N':
-				if (length < 1 || length > *cPt ){ /* head to west body to east */
-					*errorPt = 1;
-			    }
-			break;
-			default :
-				*errorPt = 1;
-			break;
-        
-        }
 
+                            break;
+                            case 'E':
+                                    if (length < 1 || length > *rPt ){ /* head to west body to east */
+                                            *errorPt = 1;
+                                }
+                            break;
+                            case 'S':
+                                    if (length < 1 || length > *cPt ){ /* head to west body to east */
+                                            *errorPt = 1;
+                                }
+                            break;
+                            case 'N':
+                                    if (length < 1 || length > *cPt ){ /* head to west body to east */
+                                            *errorPt = 1;
+                                }
+                            break;
+                            default :
+                                    *errorPt = 1;
+                            break;
+            }
         /* add ship information into shipdata list */
-			insertEnd(shipData, shipName, direction, location,  length);
+            addShip(shipData, shipName, direction, locationCol, locationRow,  length);
 		
 	}     
       
@@ -79,7 +77,7 @@ void loadSetting(int *cPt, int *rPt, char* fileName, LinkedList * shipData, int 
 
 }
 
-void loadMissle(char* weaponFile, LinkedList * missleData ){
+void loadMissle(char* weaponFile, misslelist * missleData ){
 	FILE *weapFpt;
 	char missleName[100];
 	int singleCount,splashCount,vCount,hCount;  
@@ -119,7 +117,7 @@ void loadMissle(char* weaponFile, LinkedList * missleData ){
 			}
 			
 		}		
-		insertMissleEnd(missleData, singleCount, splashCount, vCount,hCount);
+		addMissle(missleData, singleCount, splashCount, vCount,hCount);
 		
 		fclose(weapFpt);
 			
@@ -229,7 +227,7 @@ void saveMissle(char* fileName){
 
 }
 
-void listMissle(LinkedList *missleData){
-    printMissle(missleData);
+void printMissle(misslelist *missleList){
+    showMissle(missleList);
 
 }

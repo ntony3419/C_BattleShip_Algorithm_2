@@ -1,0 +1,17 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+ * File:   gameplay.h
+ * Author: Navid
+ *
+ * Created on April 28, 2020, 12:18 AM
+ */
+
+
+void manipulateSetting(int * rowPt, int *colPt, shiplist * shipList, char* settingFile);
+
+void manipulateMissle(char* missleFile, misslelist * missleList);

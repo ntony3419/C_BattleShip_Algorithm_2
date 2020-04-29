@@ -11,33 +11,34 @@
  * Created on April 27, 2020, 6:07 AM
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "menu.h"
-#include "linkedlist.h"
 /*
  * 
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "misslelist.h"
+#include "shiplist.h"
+#include "menu.h"
+#include "gameplay.h"
+
 int main(int argc, char* argv[]) {
-    FILE *fpt;
+    
     int choice;
   /*  int * choicePT; */   /*will set choice to 0 if end game*/
-    char ** field;
+ /*   char ** field;*/
     int inputRow;
     int inputCol;
+    
+    int* rowPt, *colPt;
     char * settingFile, *missleFile;
-    char locationCol;
-    int locationRow;
-    char direction;
-    int length;
-    char * shipName;
+   
     
-    LinkedList * shipList;
-    LinkedList * missleList;
+    shiplist * shipList;
+    misslelist * missleList;
     
-    shipList = createLL();
-    missleList = createLL();
+    shipList = createShipList();
+    missleList = createMissleList();
     
     
     settingFile = (char*) malloc(sizeof(char)*100);
@@ -50,26 +51,26 @@ int main(int argc, char* argv[]) {
     scanf("%s",missleFile);
    
     /* get the input for dimension from file */
-    fpt = fopen(settingFile,"r");
-    fscanf("%d,%d", &inputRow, &inputCol);
-    /* get the ship information from file*/
-    printf("row %d col %d \n", inputRow, inputCol);
+    rowPt = &inputRow;
+    colPt = &inputCol;     
     printShip(shipList);
-    printMissle(missleList);
+    /* get the field and ship information from file*/
+    manipulateSetting(rowPt, colPt, shipList , settingFile);   
     
-    while(!EOF){
-        fscanf("%c%d %c %d %[^]\n", &locationCol, &locationRow, &direction, &length, shipName );
-        
-    }
+    
+    printf("col %d row %d \n", inputCol,inputRow);
+    
+      
+    
+    printShip(shipList);
     
     
     /* get the missle information */
-    fpt = fopen(missleFile, "r");
+    manipulateMissle(missleFile,  missleList);
     
-    
-    
+   
     /* create the field*/
-    field = (char**) malloc(sizeof(char*));
+/*    field = (char**) malloc(sizeof(char*));*/
     
     do {
         menu();
@@ -81,7 +82,8 @@ int main(int argc, char* argv[]) {
         }
         if (choice == 2){
             /* show the missle */
-            
+             printf("Missle List\n");
+            showMissle(missleList);
         }
         if (choice == 3){
             /* create new ship file*/
