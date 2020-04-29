@@ -60,11 +60,7 @@ void addMissleStart(misslelist *misslelist ,char * missle){
 		newNode-> next = misslelist->head;
 		misslelist->head = newNode;
 	}
-     /*    free(newNode->single );
-        free(newNode->splash );
-        free(newNode->vline );
-       free(newNode->hline );*/
-/*	free(newNode);*/
+      
          
 }
 
@@ -118,14 +114,12 @@ void addMissle(misslelist *misslelist ,char * missle){
 	
 	           
         newNode -> next = NULL;
-
+        
         /* set the cursor.next to newNode */
         cursor -> next = newNode;
+        
     }
-/*	  free(newNode->single );
-        free(newNode->splash );
-        free(newNode->vline );
-       free(newNode->hline );*/
+
 	/*free(newNode);
         free(cursor);*/
         
