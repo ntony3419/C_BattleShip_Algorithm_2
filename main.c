@@ -21,18 +21,20 @@
 #include "shiplist.h"
 #include "menu.h"
 #include "gameplay.h"
+#include "Field.h"
 
 int main(int argc, char* argv[]) {
     
     int choice;
   /*  int * choicePT; */   /*will set choice to 0 if end game*/
  /*   char ** field;*/
-    int inputRow;
-    int inputCol;
+    int inputRow, realRow;
+    int inputCol,i,j, realCol;
     
     int* rowPt, *colPt;
     char * settingFile, *missleFile;
-   
+    char ** field;
+    
     
     shiplist * shipList;
     misslelist * missleList;
@@ -56,28 +58,40 @@ int main(int argc, char* argv[]) {
     printShip(shipList);
     /* get the field and ship information from file*/
     manipulateSetting(rowPt, colPt, shipList , settingFile);   
+    realRow = inputRow + 1; /* for the A B C D*/
+    realCol = inputCol + 1; /* for the number 1 2 3 4*/
     
-    
-    printf("col %d row %d \n", inputCol,inputRow);
-    
-      
-    
-    printShip(shipList);
-    
-    
+    printf("col %d row %d \n", realCol,realRow);
     /* get the missle information */
     manipulateMissle(missleFile,  missleList);
     
    
-    /* create the field*/
-/*    field = (char**) malloc(sizeof(char*));*/
+  
     
     do {
         menu();
         scanf("%d",&choice);
+       /* count = 1;
+        charCol='A';*/
         if (choice == 1){
             /* start game */
+              /* create the field and initial to #*/
+            field = (char**) malloc(sizeof(char*)*realRow);
+            for (i=0; i < realRow; i++){
+                field[i] = (char*)malloc(sizeof(char) * realCol);
+                 
+                
+            }
+               /* initialize when i = 1 and j = 1*/       
+            for (i = 1 ; i < realRow; i ++){
+                for (j=1; j < realCol; j ++){
+                    field[i][j]='#';
+                    
+                }
+            }
             
+            
+            showField(field, realCol, realRow);
             
         }
         if (choice == 2){

@@ -11,3 +11,4 @@
  * Created on April 27, 2020, 6:26 AM
  */
 
+void showField(char**field, int realCol, int realRow);
