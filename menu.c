@@ -12,6 +12,8 @@ void menu(){
     
     printf("1. Play\n");
     printf("2. Show missle\n");
+    printf("3. Create new Setting\n");
+    printf("4. Create new missle file\n");
     printf("0. Exit\n");
     printf("Choose one option\n");
 }

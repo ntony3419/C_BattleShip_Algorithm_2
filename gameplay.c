@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include "shiplist.h"
 #include "misslelist.h"
-
+#include <string.h>
 /*
  * 
  */
@@ -53,10 +53,73 @@ void manipulateMissle(char* missleFile, misslelist * missleList){
     free(missle);
     fclose(fpt);
 }
-void createShipFile(){
+void createNewFile(int userChoice, char* fileName){
+    
+    FILE * fpt ;
+    int col, row;
+    char* stop;
+    char* location;
+    char direction;
+    int length;
+    char*shipName;
+    char*missle;
+    
+    stop = (char*) malloc(sizeof(char)*100);
+    location = (char*) malloc(sizeof(char)*2);
+    shipName = (char*) malloc (sizeof(char)*100);
     
     
-}
-void createMissleFile(){
+    if (userChoice == 3){ /* create setting */
+        
+        /* open a file*/
+        fpt = fopen(fileName, "w");
+        printf("enter dimension for the field (col,row)\n");
+        scanf("%d,%d", &col, &row);
+        fprintf(fpt, "%d,%d\n", col, row);
+        
+        /* loop for ship information and write to file*/
+      
+        do{
+            printf("Enter ship information (format : location direction length shipname) \n Example: A1 E 3 shipone\n");
+            
+            scanf("%s %c %d %s", location, &direction, &length, shipName); /* get information */           
+            printf("\n");
+            /* write to the file*/
+            fprintf(fpt, "%s %c %d %s\n", location, direction, length, shipName);
+             /* continue prompt */
+            printf("\nenter \"stop\" to exit\nOR enter anything ti continue\n");
+            scanf("%s", stop);
+        }while (strcmp(stop, "stop") != 0);
+        /* reset the stop when return to menu*/
+        stop = "nonestop";
+        
+        fclose(fpt);
+    }
+    if (userChoice == 4){/*create missle */
+          /* open a file*/
+        
+        fpt = fopen(fileName, "w");
+        
+        
+        missle = (char*) malloc(sizeof(char)*100);
+        /* loop for missle information and write to file*/
+      
+        do{
+            printf("Enter missle information\n");            
+            scanf("%s", missle); /* get information */           
+            printf("\n");
+            /* write to the file*/
+            fprintf(fpt, "%s\n", missle);
+             /* continue prompt */
+            printf("\nenter \"stop\" to exit\nOR enter anything ti continue\n");
+            scanf("%s", stop);
+        }while (strcmp(stop, "stop") != 0);
+        /* reset the stop when return to menu*/
+        stop = "nonestop";
+        
+        
+        fclose(fpt);
+    }
     
+           
 }

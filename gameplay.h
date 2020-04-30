@@ -15,3 +15,4 @@
 void manipulateSetting(int * rowPt, int *colPt, shiplist * shipList, char* settingFile);
 
 void manipulateMissle(char* missleFile, misslelist * missleList);
+void createNewFile(int userChoice, char* fileName);
