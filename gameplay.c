@@ -120,6 +120,4 @@ void createNewFile(int userChoice, char* fileName){
         
         fclose(fpt);
     }
-    
-           
 }
