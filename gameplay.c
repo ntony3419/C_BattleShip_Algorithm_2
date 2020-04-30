@@ -53,3 +53,10 @@ void manipulateMissle(char* missleFile, misslelist * missleList){
     free(missle);
     fclose(fpt);
 }
+void createShipFile(){
+    
+    
+}
+void createMissleFile(){
+    
+}
