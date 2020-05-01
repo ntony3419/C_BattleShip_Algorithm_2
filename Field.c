@@ -59,12 +59,17 @@ void showField(char**field, int realCol, int realRow, int** tileState){
     /* print all the tile */
     for (i = 0;i < realRow;i ++){
         for (j=0; j < realCol; j ++){
-            if (i == 0 && j == 0) { /* the smiley face*/
-                printf ("%c||",field[i][j]);
+            if (i == 0 ) { /* the smiley face*/
+                if (j ==0){
+                    printf ("%c||",field[i][j]);
+                }
+                else{
+                    printf (" %c |",field[i][j]); /* A B C D E */
+                }
             }
             else if (j ==0){ /* location after the number */
                 printf("%c ||", field[i][j]);
-            }
+            }            
            else if (i>9 && j >9){ /* field dimension is more than 9*/
                 /* use the tile state to color the tile when the DEBUG enable*/
                 #ifdef DEBUG         
@@ -79,6 +84,7 @@ void showField(char**field, int realCol, int realRow, int** tileState){
                     #ifdef MONO
                         printf("%c |", field[i][j]);
                     #else       
+                        
                         if (field[i][j] == 'X'){
                             printf("%s%c %s|",RED, field[i][j],RESET);
                         }
@@ -94,7 +100,7 @@ void showField(char**field, int realCol, int realRow, int** tileState){
                 #endif      
                
             }
-            else{
+            else{ /* i < 10 */
                  #ifdef DEBUG         
                 /* use tile state to determine color for ship tile on field*/
                     if(tileState[i][j]==1){ /* that tile has ship */
