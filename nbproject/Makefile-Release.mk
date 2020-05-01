@@ -36,7 +36,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Field.o \
-	${OBJECTDIR}/fileIO.o \
 	${OBJECTDIR}/gameplay.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/menu.o \
@@ -72,11 +71,6 @@ ${OBJECTDIR}/Field.o: Field.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -std=c89 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Field.o Field.c
-
-${OBJECTDIR}/fileIO.o: fileIO.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c89 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fileIO.o fileIO.c
 
 ${OBJECTDIR}/gameplay.o: gameplay.c
 	${MKDIR} -p ${OBJECTDIR}

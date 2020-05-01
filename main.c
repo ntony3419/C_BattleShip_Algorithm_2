@@ -23,6 +23,7 @@
 #include "gameplay.h"
 #include "Field.h"
 #include <string.h>
+#include <ctype.h>
 int main(int argc, char* argv[]) {
     
     int choice;
@@ -89,9 +90,10 @@ int main(int argc, char* argv[]) {
             manipulateSetting(rowPt, colPt, shipList , settingFile);               
             realRow = inputRow + 1; /* for the A B C D*/
             realCol = inputCol + 1; /* for the number 1 2 3 4*/
-            printf("col %d row %d \n", realCol,realRow);
+       
             /* get the missle information */
             manipulateMissle(missleFile,  missleList);
+            findMissleAmount(missleList, singlePt, splashPt, vlinePt, hlinePt); /* showing the amount of missle collected from file */                             
               /* create the field and initial to #*/
             field = (char**) malloc(sizeof(char*)*realRow);
             for (i=0; i < realRow; i++){
@@ -114,15 +116,6 @@ int main(int argc, char* argv[]) {
             }
             /* use shiplist data to init the tile state*/            
             prepareTile(shipList, tileState, realCol, realRow,endPt);
-            
-            /* print test tile state*/
-            for (i=1;i<realRow; i ++){
-                for (j=1; j < realCol; j++){
-                    printf("%d ", tileState[i][j]);
-                }
-                printf("\n");
-            }
-            
             /* show the field*/
             showField(field, realCol, realRow,tileState);
             
@@ -135,34 +128,104 @@ int main(int argc, char* argv[]) {
             missle = (char*) malloc(sizeof(char)*100);
             while (end==0){ /* end is false */                
                 /* show and calculate amount of missle*/
-               showMissleAmount(missleList, singlePt, splashPt, vlinePt, hlinePt); /* showing the amount of missle collected from file */                             
+              
+               showMissleAmount(single,splash,vline, hline);
                /* choose missle for the attack */
                printf("enter name of missle\n");
                scanf("%s", missle);
-               printf("\n");
+              
                /* decrease the missle count for that type base on the input from user*/
-               if(strcmp(missle,"single")==0){
-                   single--;
+               if (single >0 || splash >0 || vline>0 || hline>0){/* decrease by 1 after chosoe the missle */
+                    if(strcmp(missle,"single")==0){
+                        single--;
+                    }
+                    if(strcmp(missle,"splash")==0){
+                        splash--;
+                    }
+                    if(strcmp(missle,"v-line")==0){
+                        vline--;
+                    }
+                    if(strcmp(missle,"h-line")==0){
+                        hline--;
+                    }
                }
-               if(strcmp(missle,"splash")==0){
-                   splash--;
-               }
-               if(strcmp(missle,"v-line")==0){
-                   vline--;
-               }
-               if(strcmp(missle,"h-line")==0){
-                   hline--;
-               }
+               printf("missle left\n");
+               showMissleAmount(single,splash,vline, hline);
+               printf("\n");
                /* check the missle count left to end the game at end of loop if all are used*/
                end = endCondition(missleList, single, splash,vline,hline); /* end is 1 if no more missle */
                
             /* get cordination from user to shoot*/
                printf("enter cordinate (columRow) ex. A1 \n");
-               scanf("%c%d", &corCol, &corRow);
+               scanf("\n%c%d", &corCol, &corRow);
+               corCol = toupper(corCol); /* convert the lower case to upper case for further calculation*/
+               /* wrong cor*/
+               if (corRow <1 || corRow > realRow || (corCol-16-'0') <1 || (corCol-16-'0') > realCol){
+			printf("The cordinate is wrong \n");
+		}
                
+               /* fire base on missle name*/
+               if (strcmp(missle,"single" ) == 0 ){
+                    if (tileState[corRow][(corCol-16-'0')] == 1){ /* find in the state tile */
+                        field[corRow][(corCol-16-'0')] = '0';/* change value of that tile*/
+                    }
+                    if ( tileState[corRow][(corCol-16-'0')] == 0) {
+                        field[corRow][(corCol-16-'0')] = 'X'; /* tnothing there*/
+                    }
+                   /* show the field*/
+                    showField(field, realCol, realRow,tileState);   
+                }
+               else if (strcmp(missle,"splash")==0){  
+                   for (i = corRow-1 ; i <= corRow+1; i ++){ 
+                       for (j = (corCol-16-'0')-1 ; j <= (corCol-16-'0')+1; j ++ ) {/* Letter  - 16 -'0' == numeric */ 
+                           if (tileState[i][j] == 1){
+                               field[i][j]='0';
+                           }
+                           if (tileState[i][j] == 0){
+                               field[i][j]='X';
+                           }
+                           
+                       }
+                   }
+                   
+			 /* show the field*/
+                    showField(field, realCol, realRow,tileState);   						
+		} /* end of else if */
                
-               
+               		/*  vline missle*/
+               else if (strcmp(missle,"v-line")==0 ){ 
+				/* find in tile*/ 
+			for (i=1; i < realRow; i ++) { /*loop through the row (vertically)*/
+				if (tileState[i][(corCol-16-'0')] == 1){
+					field[i][(corCol-16-'0')] = '0';					
+				}
+				if (tileState[i][(corCol-16-'0')] == 0){
+					field[i][(corCol-16-'0')] = 'X';					
+				}
+			}
+                    showField(field, realCol, realRow,tileState);				
+		} /* end if of v line */
+					
+					/* user choose hline missle*/
+               else if (strcmp(missle,"h-line")==0 ){ 
+					
+						/* mark the tile in column */ 
+			for (i=1; i < realCol; i ++) { /*loop through the colum (horizontally)*/
+				if (tileState[corRow][i] == 1){
+					field[corRow][i] = '0'; 					
+				}
+				if (tileState[corRow][i] == 0){
+					field[corRow][i] = 'X'; 					
+				}
+			}
+                    showField(field, realCol, realRow,tileState);							
+		}/* end if of h line */
+              
             }
+            if (end == 1 ){
+                   printf("game finish \n");
+            }
+            
         }
         /* menu 2*/
         if (choice == 2){
@@ -174,8 +237,8 @@ int main(int argc, char* argv[]) {
                 scanf("%s",missleFile);
                 manipulateMissle(missleFile,  missleList);
             }                         
-            showMissleAmount(missleList, singlePt, splashPt, vlinePt, hlinePt); /* showing the amount of missle collected from file */
-            
+            findMissleAmount(missleList, singlePt, splashPt, vlinePt, hlinePt); /* showing the amount of missle collected from file */
+            showMissleAmount(single, splash, vline, hline);
         }
         /*menu 3*/
         if (choice == 3){
@@ -196,7 +259,7 @@ int main(int argc, char* argv[]) {
         
         
         
-    }while (choice != 0 && end==0);
+    }while (choice != 0 );
     
     /* showing the menu */
     

@@ -126,8 +126,10 @@ void play(char** field, int realCol, int realRow, int end){
     
 }
 
-
-void showMissleAmount(misslelist * missleList, int * singlePt, int *splashPt,int * vlinePt, int*hlinePt){
+void showMissleAmount(int single, int splash, int vline, int hline){
+    printf("Single %d\nSplash %d\nV-line %d\nH-line %d\n", single, splash, vline, hline );
+}
+void findMissleAmount(misslelist * missleList, int * singlePt, int *splashPt,int * vlinePt, int*hlinePt){
     /* this function will show the amount of missle each type and also return the count of each type to the main function*/
     /* calculate the amount*/
     /* loop through the missle list to calculate each type of missle and return to main function*/
@@ -150,13 +152,14 @@ void showMissleAmount(misslelist * missleList, int * singlePt, int *splashPt,int
         }    
         cursor = cursor->next;
     }
-    /* show the amount*/
-    printf("Single Missle: %d\nSplash Missle: %d\nV-line missle: %d\nH-line: %d\n", *singlePt, *splashPt, *vlinePt, *hlinePt);
+ 
+ 
 }
 
 /* winning condition is when no mor missle and no more ship*/
 int endCondition(misslelist * missleList, int single, int splash, int vline,int hline){
     int end;
+    end = 0;
     if (single == 0 && splash == 0 && vline == 0 && hline ==0 ){
         end = 1; /* end is true*/
     
@@ -169,7 +172,7 @@ void prepareTile(shiplist * shipList,int** tileState, int realCol,int realRow, i
     int i,j, count;
     
     cursor = (shipNode*) malloc(sizeof(shipNode));
-    printShip(shipList);
+    
     
     cursor = shipList->head;
     while (cursor != NULL){ /* loop each node to get data */

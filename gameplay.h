@@ -18,5 +18,6 @@ void manipulateMissle(char* missleFile, misslelist * missleList);
 void createNewFile(int userChoice, char* fileName);
 void play(char** field, int realCol, int realRow, int end);
 int endCondition(misslelist * missleList, int single, int splash, int vline,int hline);
-void showMissleAmount(misslelist * missleList, int * singlePt, int *splashPt,int * vlinePt, int*hlinePt);
+void findMissleAmount(misslelist * missleList, int * singlePt, int *splashPt,int * vlinePt, int*hlinePt);
 void prepareTile(shiplist * shipList,int** tileState, int realCol,int realRow, int*endPt);
+void showMissleAmount(int single, int splash, int vline, int hline);
