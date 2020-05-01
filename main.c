@@ -25,14 +25,13 @@
 #include <string.h>
 #include <ctype.h>
 int main(int argc, char* argv[]) {
-    
+    shipNode *shipCursor; /* memory clean */
+    missleNode *missleCursor; /* memory clean */
     int choice;
   /*  int * choicePT; */   /*will set choice to 0 if end game*/
  /*   char ** field;*/
-    int inputRow, realRow;
-    
-    int inputCol,i,j, realCol, single, splash, vline,hline;
-    
+    int inputRow, realRow;    
+    int inputCol,i,j, realCol, single, splash, vline,hline;    
     int* rowPt, *colPt, *singlePt, *splashPt, *vlinePt, *hlinePt;
     char * settingFile, *missleFile;
     char ** field;    
@@ -255,18 +254,35 @@ int main(int argc, char* argv[]) {
             scanf("%s", missleFile);
              createNewFile(choice, missleFile);
         }
-        
-        
-        
-        
     }while (choice != 0 );
     
-    /* showing the menu */
+   /* memory clean section */
     
+   
+    shipCursor = shipList-> head;
+    while (shipCursor != NULL){
+        free(shipCursor -> shipName);
+        shipList->head = shipList->head->next;
+        
+        free(shipCursor);        
+        shipCursor = shipList->head;
+        
+    }
+    free(shipCursor);
     
-    
-    /* create the field*/
-    
+  
+    missleCursor = missleList -> head;
+    while (missleCursor !=NULL){
+          free(missleCursor->single);
+        free(missleCursor->splash );
+          free(missleCursor->vline );
+        free(missleCursor->hline);
+        missleList ->head = missleList ->head ->next;
+        free(missleCursor);
+        missleCursor = missleList ->head;
+        
+    }
+    free(missleCursor);
     
     
     return 0;

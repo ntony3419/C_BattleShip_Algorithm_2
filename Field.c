@@ -65,7 +65,7 @@ void showField(char**field, int realCol, int realRow, int** tileState){
             else if (j ==0){ /* location after the number */
                 printf("%c ||", field[i][j]);
             }
-            else if (i>9 && j >9){ /* field dimension is more than 9*/
+           else if (i>9 && j >9){ /* field dimension is more than 9*/
                 /* use the tile state to color the tile when the DEBUG enable*/
                 #ifdef DEBUG         
                 /* use tile state to determine color for ship tile on field*/
@@ -76,7 +76,21 @@ void showField(char**field, int realCol, int realRow, int** tileState){
                         printf("%c |", field[i][j]); /* this line is normal*/
                     }
                 #else   
-                    printf("%c |", field[i][j]);
+                    #ifdef MONO
+                        printf("%c |", field[i][j]);
+                    #else       
+                        if (field[i][j] == 'X'){
+                            printf("%s%c %s|",RED, field[i][j],RESET);
+                        }
+                        if(field[i][j] == '0'){
+                              printf("%s%c %s|",GREEN, field[i][j],RESET);
+                        }
+                        if(field[i][j] == '#'){
+                              printf("%s%c %s|",BLUE, field[i][j],RESET);
+                        }                    
+                        
+                    
+                    #endif
                 #endif      
                
             }
@@ -90,7 +104,19 @@ void showField(char**field, int realCol, int realRow, int** tileState){
                          printf(" %c |", field[i][j]); /* this line is normal*/
                     }
                 #else   
-                     printf(" %c |", field[i][j]);
+                     #ifdef MONO
+                        printf(" %c |", field[i][j]);
+                    #else       
+                        if (field[i][j] == 'X'){
+                            printf("%s %c %s|",RED, field[i][j],RESET);
+                        }
+                        else if(field[i][j] == '0'){
+                              printf("%s %c %s|",GREEN, field[i][j],RESET);
+                        }
+                        else if(field[i][j] == '#'){
+                              printf("%s %c %s|",BLUE, field[i][j],RESET);
+                        }                    
+                    #endif
                 #endif      
                
             }

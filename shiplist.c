@@ -53,10 +53,8 @@ void addShipFront(shiplist *shiplist,  char *shipName, char direction, char loca
 		newNode-> next = shiplist->head;
 		shiplist->head = newNode;
 	}
-	/*
-	free(newNode -> shipName);
-	free(newNode -> location);
-*/
+        
+	
 }
 
 
