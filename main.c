@@ -36,6 +36,7 @@ int main(int argc, char* argv[]) {
     char * settingFile, *missleFile;
     char ** field;    
     int end; /* to stop the game */
+    int*endPt; /* to change end value */
     int** tileState;
     char* missle; /* for user input missle name*/
     char corCol; /*cordinate to shoot */
@@ -68,6 +69,9 @@ int main(int argc, char* argv[]) {
         scanf("%d",&choice);
        /* count = 1;
         charCol='A';*/
+        end = 0; /*0 is false  */
+        endPt = &end;
+   
         if (choice == 1){
             /* start game */
             
@@ -80,7 +84,7 @@ int main(int argc, char* argv[]) {
             /* get the input for dimension from file */
             rowPt = &inputRow;
             colPt = &inputCol;     
-            printShip(shipList);
+            
             /* get the field and ship information from file*/
             manipulateSetting(rowPt, colPt, shipList , settingFile);               
             realRow = inputRow + 1; /* for the A B C D*/
@@ -100,26 +104,33 @@ int main(int argc, char* argv[]) {
                 }
             }       
             /* create a tile state array to store the location of all ship this will help enable DEBUG feature the field*/
-            tileState = (int**)malloc(sizeof(int*)*inputRow);
-            for (i=0; i < inputRow; i ++){
-                tileState[i]= (int*)malloc(sizeof(int)*inputCol);
+            tileState = (int**)malloc(sizeof(int*)*realRow);
+            for (i=1; i < realRow; i ++){
+                tileState[i]= (int*)malloc(sizeof(int)*realCol);
                 /* innitialize the state to 0*/
-                for(j = 0; j < inputCol; j++){
+                for(j = 1; j < realCol; j++){
                     tileState[i][j]= 0; /* 0 mean nothing at this tile */
                 }
             }
             /* use shiplist data to init the tile state*/            
-            prepareTile(shipList, tileState, inputCol, inputRow);
+            prepareTile(shipList, tileState, realCol, realRow,endPt);
+            
+            /* print test tile state*/
+            for (i=1;i<realRow; i ++){
+                for (j=1; j < realCol; j++){
+                    printf("%d ", tileState[i][j]);
+                }
+                printf("\n");
+            }
             
             /* show the field*/
-            showField(field, realCol, realRow);
+            showField(field, realCol, realRow,tileState);
             
             /* 
              * below is algorithm to play the game 
              */
             
             /* when end not true , true == 1*/
-            end = 0;
            
             missle = (char*) malloc(sizeof(char)*100);
             while (end==0){ /* end is false */                
@@ -185,7 +196,7 @@ int main(int argc, char* argv[]) {
         
         
         
-    }while (choice != 0);
+    }while (choice != 0 && end==0);
     
     /* showing the menu */
     

@@ -8,12 +8,18 @@
 #include <stdlib.h>
 #include "Field.h"
 
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define BLUE "\033[1;34m"
+#define RESET "\033[0m"
+#define MAGENTA "\033[1;35m"
+
 void field(char** field){
     
     
 
 }
-void showField(char**field, int realCol, int realRow){
+void showField(char**field, int realCol, int realRow, int** tileState){
     int i ,j;
      /* row number  1 2 3 4*/
     char charCol ; /* A B  C D */
@@ -60,10 +66,33 @@ void showField(char**field, int realCol, int realRow){
                 printf("%c ||", field[i][j]);
             }
             else if (i>9 && j >9){ /* field dimension is more than 9*/
-                printf("%c |", field[i][j]);
+                /* use the tile state to color the tile when the DEBUG enable*/
+                #ifdef DEBUG         
+                /* use tile state to determine color for ship tile on field*/
+                    if(tileState[i][j]==1){ /* that tile has ship */
+                        printf("%s %c %s|", MAGENTA, field[i][j], RESET); /* add color into this line */
+                    }
+                    else{
+                        printf("%c |", field[i][j]); /* this line is normal*/
+                    }
+                #else   
+                    printf("%c |", field[i][j]);
+                #endif      
+               
             }
             else{
-                printf(" %c |", field[i][j]);
+                 #ifdef DEBUG         
+                /* use tile state to determine color for ship tile on field*/
+                    if(tileState[i][j]==1){ /* that tile has ship */
+                         printf("%s %c %s|", MAGENTA,field[i][j], RESET); /* add color into this line */
+                    }
+                    else{
+                         printf(" %c |", field[i][j]); /* this line is normal*/
+                    }
+                #else   
+                     printf(" %c |", field[i][j]);
+                #endif      
+               
             }
           
           

@@ -16,6 +16,7 @@
 #include "shiplist.h"
 #include "misslelist.h"
 #include <string.h>
+#include <ctype.h>
 /*
  * 
  */
@@ -163,4 +164,93 @@ int endCondition(misslelist * missleList, int single, int splash, int vline,int 
     return end;
 }
 
-void prepareTile(shiplist * shipList,int** tileState, int inputCol,int inputRow);
+void prepareTile(shiplist * shipList,int** tileState, int realCol,int realRow, int*endPt){
+    shipNode * cursor;
+    int i,j, count;
+    
+    cursor = (shipNode*) malloc(sizeof(shipNode));
+    printShip(shipList);
+    
+    cursor = shipList->head;
+    while (cursor != NULL){ /* loop each node to get data */
+       
+        for (i = 1; i < realRow; i ++){
+            for (j=1; j < realCol; j ++){
+                if (tolower(cursor -> direction) == 'w'){ /* body to the east set state as lenth to the east*/
+                    if ( (cursor -> locationCol - 16 -'0') == j && (cursor -> locationRow )==i){ /* found the head */
+                        /* change the state accorting to length*/
+                        for (count =0; count < cursor->length; count++){
+                            if (tileState[i][j+count] == 1) {/*ship tile colision*/
+                                printf("there are collision in ship information check the file\n");                                 
+                                *endPt=1; /*quit the game */
+                            }       
+                            
+                            if ((j+count) > realRow){ 
+                              *endPt = 1; /* out of bound end game*/
+                               printf("Check the file again. out of bound detected \n");
+					
+                            }
+                            tileState[i][j+count] = 1; /* switch state to true (has ship )*/
+                        }
+                    }
+                }
+                if (tolower(cursor -> direction) == 'e'){/* body to the west*/
+                    if ( (cursor -> locationCol - 16 -'0') == j && (cursor -> locationRow )==i){ /* found the head */
+                        /* change the state accorting to length*/
+                        for (count =0; count < cursor->length; count++){
+                             if ( tileState[i][j-count] == 1) {/*ship tile colision*/
+                                printf("\nthere are collision in ship information check the file\n");                                 
+                                *endPt=1; /*quit the game */
+                            }  
+                             if (i-count < 0){ 
+					*endPt = 1; /*out of bound detected*/
+					printf("\nship out of bound\n");
+					
+				}
+                            tileState[i][j-count] = 1; /* switch state to true (has ship )*/
+                        }
+                    }
+                }
+                if (tolower(cursor -> direction) == 's'){/* body to the north*/
+                    if ( (cursor -> locationCol - 16 -'0') == j && (cursor -> locationRow)==i){ /* found the head */
+                        /* change the state accorting to length*/
+                        for (count =0; count < cursor->length; count++){
+                             if ( tileState[i-count][j] == 1) {/*ship tile colision*/
+                                printf("\nthere are collision in ship information check the file\n");                                 
+                                *endPt=1; /*quit the game */
+                            }        
+                             if ((i-count) < 0){ /*can't go further than upper bound */
+					*endPt = 1; /*out of bound is true. this will stop this function and end the program*/
+					printf("\nout of bound detected\n");
+									
+				}
+                            tileState[i-count][j] = 1; /* switch state to true (has ship )*/
+                        }
+                    }
+                }
+                if (tolower(cursor -> direction) == 'n'){/* body to the south*/
+                    if ( (cursor -> locationCol - 16 -'0') == j && (cursor -> locationRow )==i){ /* found the head */
+                        /* change the state accorting to length*/
+                        for (count =0; count < cursor->length; count++){
+                             if (tileState[i+count][j] == 1) {/*ship tile colision*/
+                                printf("\nthere are collision in ship information check the file\n");                                 
+                                *endPt=1; /*quit the game */
+                            }       
+                             if ((i - count) >= realRow){ /*can't go further than bottom bound */
+					*endPt = 1; /*out of bound is true. this will stop this function and end the program*/
+					printf("\na out of bound detected\n");
+					
+				}
+                            tileState[i+count][j] = 1; /* switch state to true (has ship )*/
+                        }
+                    }
+                }
+        
+            }
+        }
+        cursor = cursor->next;
+   
+    }
+    
+    
+}
