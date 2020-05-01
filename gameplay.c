@@ -121,3 +121,44 @@ void createNewFile(int userChoice, char* fileName){
         fclose(fpt);
     }
 }
+void play(char** field, int realCol, int realRow, int end){
+    
+}
+
+
+void showMissleAmount(misslelist * missleList, int * singlePt, int *splashPt,int * vlinePt, int*hlinePt){
+    /* this function will show the amount of missle each type and also return the count of each type to the main function*/
+    /* calculate the amount*/
+    /* loop through the missle list to calculate each type of missle and return to main function*/
+    missleNode *cursor; 
+    cursor = (missleNode*)malloc(sizeof(missleNode));
+    cursor = missleList->head; /* starting*/
+    while (cursor != NULL){ /* loop each one*/
+        /* count each data*/
+        if (strcmp(cursor->single, "single") == 0 ) {
+            (*singlePt)++; /* increace the value of pointer single */            
+        }
+         if (strcmp(cursor->splash, "splash") == 0 ) {
+            (*splashPt)++; /* increace the value of pointer single */            
+        }
+         if (strcmp(cursor->vline, "v-line") == 0 ) {
+            (*vlinePt)++; /* increace the value of pointer single */            
+        }
+         if (strcmp(cursor->hline, "h-line") == 0 ) {
+            (*hlinePt)++; /* increace the value of pointer single */            
+        }    
+        cursor = cursor->next;
+    }
+    /* show the amount*/
+    printf("Single Missle: %d\nSplash Missle: %d\nV-line missle: %d\nH-line: %d\n", *singlePt, *splashPt, *vlinePt, *hlinePt);
+}
+
+/* winning condition is when no mor missle and no more ship*/
+int endCondition(misslelist * missleList, int single, int splash, int vline,int hline){
+    int end;
+    if (single == 0 && splash == 0 && vline == 0 && hline ==0 ){
+        end = 1; /* end is true*/
+    
+    }
+    return end;
+}

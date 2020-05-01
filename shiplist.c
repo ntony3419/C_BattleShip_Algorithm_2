@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "shiplist.h"
-
+#include <ctype.h>
 shiplist *createShipList(void)
 {
     shiplist *list;
@@ -37,7 +37,7 @@ void addShipFront(shiplist *shiplist,  char *shipName, char direction, char loca
 	
 	newNode -> shipName = (char*)malloc(sizeof(char)*100);
         strcpy(newNode->shipName, shipName);
-	newNode -> direction = direction;
+	newNode -> direction = tolower(direction);
 	newNode -> locationCol = locationCol;
         newNode -> locationRow = locationRow;
 	newNode -> length = length;
@@ -109,7 +109,7 @@ void addShip(shiplist *shiplist,  char *shipName, char direction, char locationC
 		
 	newNode -> shipName = (char*)malloc(sizeof(char)*100);
         strcpy(newNode->shipName, shipName);
-	newNode -> direction = direction;
+	newNode -> direction = tolower(direction);
 	newNode -> locationCol = locationCol;
         newNode -> locationRow = locationRow;
 	newNode -> length = length;    

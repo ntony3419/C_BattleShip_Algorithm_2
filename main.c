@@ -22,22 +22,28 @@
 #include "menu.h"
 #include "gameplay.h"
 #include "Field.h"
-
+#include <string.h>
 int main(int argc, char* argv[]) {
     
     int choice;
   /*  int * choicePT; */   /*will set choice to 0 if end game*/
  /*   char ** field;*/
     int inputRow, realRow;
-    int inputCol,i,j, realCol;
     
-    int* rowPt, *colPt;
+    int inputCol,i,j, realCol, single, splash, vline,hline;
+    
+    int* rowPt, *colPt, *singlePt, *splashPt, *vlinePt, *hlinePt;
     char * settingFile, *missleFile;
-    char ** field;
+    char ** field;    
+    int end; /* to stop the game */
     
-    
+    char* missle; /* for user input missle name*/
+    char corCol; /*cordinate to shoot */
+    int corRow; /*cordinate to shoot */
     shiplist * shipList;
     misslelist * missleList;
+   
+    
     
     shipList = createShipList();
     missleList = createMissleList();
@@ -46,11 +52,17 @@ int main(int argc, char* argv[]) {
     settingFile = (char*) malloc(sizeof(char)*100);
     missleFile = (char*) malloc(sizeof(char)*100);
     
-    
-    
-   
+    /* init the missle amount*/
+    single=0;
+    splash=0; 
+    vline=0;
+    hline=0;
+    singlePt = &single;    
+    splashPt = &splash;
+    vlinePt = &vline;
+    hlinePt = &hline;  
   
-    
+       /* algorithm to play t he game*/
     do {
         menu();
         scanf("%d",&choice);
@@ -58,6 +70,7 @@ int main(int argc, char* argv[]) {
         charCol='A';*/
         if (choice == 1){
             /* start game */
+            
             /* get the file name*/
             printf("enter the file name for the ship\n");
             scanf("%s", settingFile);   
@@ -69,31 +82,66 @@ int main(int argc, char* argv[]) {
             colPt = &inputCol;     
             printShip(shipList);
             /* get the field and ship information from file*/
-            manipulateSetting(rowPt, colPt, shipList , settingFile);   
+            manipulateSetting(rowPt, colPt, shipList , settingFile);               
             realRow = inputRow + 1; /* for the A B C D*/
             realCol = inputCol + 1; /* for the number 1 2 3 4*/
-
             printf("col %d row %d \n", realCol,realRow);
+             
+          
+
             /* get the missle information */
             manipulateMissle(missleFile,  missleList);
               /* create the field and initial to #*/
             field = (char**) malloc(sizeof(char*)*realRow);
             for (i=0; i < realRow; i++){
                 field[i] = (char*)malloc(sizeof(char) * realCol);
-                 
-                
             }
                /* initialize when i = 1 and j = 1*/       
             for (i = 1 ; i < realRow; i ++){
                 for (j=1; j < realCol; j ++){
-                    field[i][j]='#';
-                    
+                    field[i][j]='#';                    
                 }
+            }       
+            
+            /* show the battle field*/
+            showField(field, realCol, realRow);      
+            
+         
+            
+            /* when end not true , true == 1*/
+            end = 0;
+           
+            missle = (char*) malloc(sizeof(char)*100);
+            while (end==0){ /* end is false */                
+                /* show and calculate amount of missle*/
+               showMissleAmount(missleList, singlePt, splashPt, vlinePt, hlinePt); /* showing the amount of missle collected from file */                             
+               /* choose missle for the attack */
+               printf("enter name of missle\n");
+               scanf("%s", missle);
+               printf("\n");
+               /* decrease the missle count for that type base on the input from user*/
+               if(strcmp(missle,"single")==0){
+                   single--;
+               }
+               if(strcmp(missle,"splash")==0){
+                   splash--;
+               }
+               if(strcmp(missle,"v-line")==0){
+                   vline--;
+               }
+               if(strcmp(missle,"h-line")==0){
+                   hline--;
+               }
+               /* check the missle count left to end the game at end of loop if all are used*/
+               end = endCondition(missleList, single, splash,vline,hline); /* end is 1 if no more missle */
+               
+            /* get cordination from user*/
+               printf("enter cordinate (columRow) ex. A1 \n");
+               scanf("%c%d", &corCol, &corRow);
+               
+               /* find the cordienat in the lisst of state */
+               
             }
-            
-            
-            showField(field, realCol, realRow);
-            
         }
         if (choice == 2){
             /* show the missle */
@@ -103,8 +151,9 @@ int main(int argc, char* argv[]) {
                 printf("enter the file name for the missle \n");
                 scanf("%s",missleFile);
                 manipulateMissle(missleFile,  missleList);
-            }             
-            showMissle(missleList);
+            }                         
+            showMissleAmount(missleList, singlePt, splashPt, vlinePt, hlinePt); /* showing the amount of missle collected from file */
+            
         }
         if (choice == 3){
             /* create new ship file*/
