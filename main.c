@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     char * settingFile, *missleFile;
     char ** field;    
     int end; /* to stop the game */
-    
+    int** tileState;
     char* missle; /* for user input missle name*/
     char corCol; /*cordinate to shoot */
     int corRow; /*cordinate to shoot */
@@ -86,9 +86,6 @@ int main(int argc, char* argv[]) {
             realRow = inputRow + 1; /* for the A B C D*/
             realCol = inputCol + 1; /* for the number 1 2 3 4*/
             printf("col %d row %d \n", realCol,realRow);
-             
-          
-
             /* get the missle information */
             manipulateMissle(missleFile,  missleList);
               /* create the field and initial to #*/
@@ -102,11 +99,24 @@ int main(int argc, char* argv[]) {
                     field[i][j]='#';                    
                 }
             }       
+            /* create a tile state array to store the location of all ship this will help enable DEBUG feature the field*/
+            tileState = (int**)malloc(sizeof(int*)*inputRow);
+            for (i=0; i < inputRow; i ++){
+                tileState[i]= (int*)malloc(sizeof(int)*inputCol);
+                /* innitialize the state to 0*/
+                for(j = 0; j < inputCol; j++){
+                    tileState[i][j]= 0; /* 0 mean nothing at this tile */
+                }
+            }
+            /* use shiplist data to init the tile state*/            
+            prepareTile(shipList, tileState, inputCol, inputRow);
             
-            /* show the battle field*/
-            showField(field, realCol, realRow);      
+            /* show the field*/
+            showField(field, realCol, realRow);
             
-         
+            /* 
+             * below is algorithm to play the game 
+             */
             
             /* when end not true , true == 1*/
             end = 0;
@@ -135,14 +145,15 @@ int main(int argc, char* argv[]) {
                /* check the missle count left to end the game at end of loop if all are used*/
                end = endCondition(missleList, single, splash,vline,hline); /* end is 1 if no more missle */
                
-            /* get cordination from user*/
+            /* get cordination from user to shoot*/
                printf("enter cordinate (columRow) ex. A1 \n");
                scanf("%c%d", &corCol, &corRow);
                
-               /* find the cordienat in the lisst of state */
+               
                
             }
         }
+        /* menu 2*/
         if (choice == 2){
             /* show the missle */
             printf("Missle List\n");
@@ -155,6 +166,7 @@ int main(int argc, char* argv[]) {
             showMissleAmount(missleList, singlePt, splashPt, vlinePt, hlinePt); /* showing the amount of missle collected from file */
             
         }
+        /*menu 3*/
         if (choice == 3){
             /* create new ship file*/
             printf("enter a name to create new setting file\n");
@@ -162,6 +174,7 @@ int main(int argc, char* argv[]) {
             createNewFile(choice, settingFile);
             
         }
+        /* menu 4*/
         if(choice == 4){
             /* create new missle file*/
              printf("enter a name to create new missle file\n");

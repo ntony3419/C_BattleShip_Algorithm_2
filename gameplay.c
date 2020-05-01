@@ -162,3 +162,5 @@ int endCondition(misslelist * missleList, int single, int splash, int vline,int 
     }
     return end;
 }
+
+void prepareTile(shiplist * shipList,int** tileState, int inputCol,int inputRow);
